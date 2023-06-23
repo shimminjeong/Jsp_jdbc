@@ -1,21 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 <form action="ModifyOk" method="post">
-		ȸ������ ����<br/>
-		��й�ȣ : <input type="password" name="pw"> <br/>
-		��ȭ��ȣ 1 : <input type="text" name="phone1"> <br/> 
-		��ȭ��ȣ 2 : <input type="text" name="phone2"> <br/> 
-		��ȭ��ȣ 3 : <input type="text" name="phone3"> <br/>
-		���� : <input type="text" name="gender"> <br/> 
+		회원정보 수정<br/>
+		비밀번호 : <input type="password" name="pw"> <br/>
+		전화번호 1 : <input type="text" name="phone1"> <br/> 
+		전화번호 2 : <input type="text" name="phone2"> <br/> 
+		전화번호 3 : <input type="text" name="phone3"> <br/>
+		성별 : <input type="text" name="gender"> <br/> 
 		<input type="hidden" name="id" value="<%= request.getParameter("id") %>">
-		<input type="submit" value="����">
+		<input type="submit" value="전송">
 	</form>
 </body>
 </html>

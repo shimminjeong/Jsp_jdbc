@@ -7,9 +7,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class MemberDAO {
-	private String url = "jdbc:oracle:thin:@tlf.co.kr:1521:orcl";
-	private String uid = "kopo";
-	private String upw = "kopo";
+	private String url = "jdbc:oracle:thin:@192.168.119.119:1521/dink11.dbsvr";
+	private String uid = "scott";
+	private String upw = "tiger";
 	
 	public MemberDAO() {
 		try {
@@ -31,6 +31,7 @@ public class MemberDAO {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from member");
 			
+//			db에 있는거 불러와서 dtos arraylist에 넣기
 			while(rs.next()) {
 				String name = rs.getString("name");
 				String id = rs.getString("id");
@@ -57,4 +58,6 @@ public class MemberDAO {
 		
 		return dtos;
 	}
+	
+	
 }

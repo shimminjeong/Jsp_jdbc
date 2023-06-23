@@ -1,10 +1,8 @@
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.Statement"%>
-<%@page import="java.sql.DriverManager"%>
-<%@page import="java.sql.SQLException"%>
-<%@page import="java.sql.Connection"%>
+<%@page import="com.daodto.MemberDTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.daodto.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,34 +10,23 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 	<%
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@192.168.119.119:1521/dink11.dbsvr";
-	String user = "scott";
-	String password = "tiger";
-
-	String query = "SELECT * FROM MEMBER";
-
-	try {
-		Class.forName(driver);
-		Connection conn = DriverManager.getConnection(url, user, password);
-		Statement stmt = conn.createStatement();
-		ResultSet resultset=stmt.executeQuery(query);
+		MemberDAO memberDAO = new MemberDAO();
+		ArrayList<MemberDTO> dtos = memberDAO.memberSelect();
 		
-		while(resultset.next()){
-			String id = resultset.getString("id");
-            String pw = resultset.getString("pw");
-            String name = resultset.getString("name");
-            String phone = resultset.getString("phone");
-            
-            out.println("ID: " + id + ", Password: " + pw + ", Name: " + name + ", Phone: " + phone + "<br>");
+		for(int i = 0; i < dtos.size();i++) {
+			MemberDTO dto = dtos.get(i);
+			
+			String name = dto.getName();
+			String id = dto.getId();
+			String pw = dto.getPw();
+			String phone = dto.getPhone1() + " - " + dto.getPhone2() + " - " + dto.getPhone3();
+			String gender = dto.getGender();
+			
+			out.println("이름: " + name + ", 아이디: " + id + ", 비밀번호: " + pw + ", 연락처: " + phone + ", 성별: " + gender + "<br/>");
 		}
-	} catch (ClassNotFoundException e) {
-		e.printStackTrace();
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}
 	%>
-<a href="memberlogin.html">회원등록</a>
+<
 </body>
 </html>
