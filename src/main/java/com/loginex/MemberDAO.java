@@ -8,7 +8,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+import javax.naming.Context;
+
 public class MemberDAO {
+
+	private DataSource ds;
 	private String url = "jdbc:oracle:thin:@192.168.119.119:1521/dink11.dbsvr";
 	private String uid = "scott";
 	private String upw = "tiger";
@@ -21,7 +27,9 @@ public class MemberDAO {
 
 	public MemberDAO() {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/oracle");
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -32,7 +40,8 @@ public class MemberDAO {
 		ArrayList<MemberDTO> dtos = new ArrayList<MemberDTO>();
 
 		try {
-			conn = DriverManager.getConnection(url, uid, upw);
+//			conn = DriverManager.getConnection(url, uid, upw);
+			conn=ds.getConnection();
 			stmt = conn.createStatement();
 			query = "select * from member";
 			rs = stmt.executeQuery(query);
@@ -76,7 +85,7 @@ public class MemberDAO {
 		MemberDTO dto = null;
 
 		try {
-			conn = DriverManager.getConnection(url, uid, upw);
+			conn=ds.getConnection();
 			query = "select * from member where id=?";
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, id);
@@ -91,7 +100,7 @@ public class MemberDAO {
 				String gender = rs.getString("gender");
 
 				dto = new MemberDTO(name, id, pw, phone1, phone2, phone3, gender);
-				
+
 			}
 
 		} catch (SQLException e) {
@@ -111,12 +120,8 @@ public class MemberDAO {
 			}
 
 		}
-		
-		return dto;
-		
-		
 
-		
+		return dto;
 
 		/*
 		 * ArrayList<MemberDTO> dtos = this.memberSelect(); for (MemberDTO dto : dtos) {
@@ -143,7 +148,7 @@ public class MemberDAO {
 		ResultSet rs = null;
 
 		try {
-			conn = DriverManager.getConnection(url, uid, upw);
+			conn=ds.getConnection();
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, name);
 			pstmt.setString(2, pw);
@@ -198,7 +203,7 @@ public class MemberDAO {
 		ResultSet rs = null;
 
 		try {
-			conn = DriverManager.getConnection(url, uid, upw);
+			conn=ds.getConnection();
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, name);
 			pstmt.setString(2, id);
@@ -218,11 +223,11 @@ public class MemberDAO {
 			}
 		} catch (SQLException e) {
 			System.out.println("해당 아이디는 중복아이디입니다.");
-			
+
 //			e.printStackTrace();
 
 		} catch (Exception e) {
-			
+
 		} finally {
 			try {
 
