@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,10 +8,12 @@
 </head>
 <body>
 <h1>로그인</h1>
-	<form action="LoginOk" method="post">
+	<form action="loginOk.jsp" method="post">
 		아이디 : <input type="text" name="id"> <br/> 
 		비밀번호 : <input type="password" name="pw"> <br/>
-		<input type="submit" value="로그인">
+		<br/> <input type="submit" value="로그인">
 	</form>
+<br/>
+<a href="join.jsp">회원가입</a>
 </body>
 </html>
