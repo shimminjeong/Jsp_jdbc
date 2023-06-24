@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -81,7 +82,7 @@ public class MemberDAO {
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 
-			while (rs.next()) {
+			if (rs.next()) {
 				String name = rs.getString("name");
 				String pw = rs.getString("pw");
 				String phone1 = rs.getString("phone1");
@@ -90,10 +91,11 @@ public class MemberDAO {
 				String gender = rs.getString("gender");
 
 				dto = new MemberDTO(name, id, pw, phone1, phone2, phone3, gender);
-
+				
 			}
 
-		} catch (Exception e) {
+		} catch (SQLException e) {
+			e.printStackTrace();
 
 		} finally {
 			try {
@@ -109,8 +111,12 @@ public class MemberDAO {
 			}
 
 		}
-
+		
 		return dto;
+		
+		
+
+		
 
 		/*
 		 * ArrayList<MemberDTO> dtos = this.memberSelect(); for (MemberDTO dto : dtos) {
@@ -201,17 +207,22 @@ public class MemberDAO {
 			pstmt.setString(5, phone2);
 			pstmt.setString(6, phone3);
 			pstmt.setString(7, gender);
-			
+
 			int iResult = pstmt.executeUpdate();
 
 			if (iResult >= 1) {
 				System.out.println("insert success");
 			} else {
 				System.out.println("insert fail");
+
 			}
+		} catch (SQLException e) {
+			System.out.println("해당 아이디는 중복아이디입니다.");
+			
+//			e.printStackTrace();
 
 		} catch (Exception e) {
-
+			
 		} finally {
 			try {
 

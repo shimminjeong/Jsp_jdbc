@@ -12,19 +12,31 @@
 	<%
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
-	
-	MemberDAO memberdao=new MemberDAO();
-	MemberDTO dto=memberdao.memberId(id);
-	
-	if (dto.getPw().equals(pw)){
-		session.setAttribute("id", id);
-		session.setAttribute("pw", pw);
-		
-		response.sendRedirect("main.jsp?id=" + id);
-	} else if(dto == null) {
-		response.sendRedirect("login.jsp");
-	} else{
-		response.sendRedirect("login.jsp");
+
+	MemberDAO memberdao = new MemberDAO();
+	MemberDTO dto = memberdao.memberId(id);
+
+	if (dto != null) {
+		if (dto.getPw().equals(pw)) {
+			session.setAttribute("id", id);
+			session.setAttribute("pw", pw);
+
+			response.sendRedirect("main.jsp?id=" + id);
+		} else {
+			%>
+			<script>
+				alert("비밀번호가 틀립니다.");
+			</script>
+			<%
+			response.sendRedirect("login.jsp");
+			}
+	} else {
+		%>
+		<script>
+			alert("해당 아이디가 존재하지 않습니다.");
+		</script>
+		<%
+	response.sendRedirect("login.jsp");
 	}
 	%>
 </body>
